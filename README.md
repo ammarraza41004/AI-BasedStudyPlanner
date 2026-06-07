@@ -62,3 +62,10 @@ This project demonstrates:
 3. Select **Test File**.
 4. All test cases should pass successfully.
 
+## Screenshots
+
+### Form Screenshot
+<img width="855" height="802" alt="Screenshot 2026-06-07 181728" src="https://github.com/user-attachments/assets/4f725f9a-b2b4-4bf0-bcaf-872db08ffac0" />
+
+### Test Run Screenshot
+<img width="1025" height="611" alt="Screenshot 2026-06-07 181807" src="https://github.com/user-attachments/assets/d2bb7057-4fcb-4d28-b0cd-36d858d02ce8" />
