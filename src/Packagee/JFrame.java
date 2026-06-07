@@ -4,269 +4,329 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class JFrame extends javax.swing.JFrame implements ActionListener {
+public class JFrame extends javax.swing.JFrame {
 
-    // Labels
-    JLabel titleLabel;
-    JLabel nameLabel, rollLabel, bookTitleLabel;
-    JLabel categoryLabel, issueDateLabel, returnDateLabel;
-    JLabel remarksLabel, typeLabel;
+    JTextField txtName;
+    JTextField txtRoll;
+    JTextField txtSubject;
+    JTextField txtExamDate;
+    JTextField txtStudyHours;
 
-    // Text Fields
-    JTextField nameField, rollField;
-    JTextField bookTitleField;
-    JTextField issueDateField, returnDateField;
+    JTextArea txtNotes;
 
-    // Text Area
-    JTextArea remarksArea;
+    JComboBox<String> comboDifficulty;
 
-    // Combo Box
-    JComboBox<String> categoryBox;
+    JRadioButton rbHigh;
+    JRadioButton rbMedium;
 
-    // Radio Buttons
-    JRadioButton newEdition, oldEdition;
-    ButtonGroup editionGroup;
+    JButton btnGenerate;
+    JButton btnReset;
+    JButton btnExit;
 
-    // Buttons
-    JButton issueButton, resetButton, exitButton;
-
-    // Constructor
     public JFrame() {
 
-        // Frame Settings
-        setTitle("Library Book Issue System");
-        setSize(700, 600);
+        setTitle("AI Based Study Planner");
+        setSize(700, 650);
+        setLayout(null);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
 
-        // Title
-        titleLabel = new JLabel("Library Book Issue System");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setBounds(170, 20, 350, 40);
-        getContentPane().add(titleLabel);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // Student Name
-        nameLabel = new JLabel("Student Name:");
-        nameLabel.setFont(new Font("Tahoma", Font.BOLD, 10));
-        nameLabel.setBounds(100, 90, 120, 30);
-        getContentPane().add(nameLabel);
+        JLabel lblTitle =
+                new JLabel("AI Based Study Planner");
+        lblTitle.setFont(
+                new Font("Arial", Font.BOLD, 22));
+        lblTitle.setBounds(200, 20, 300, 30);
+        add(lblTitle);
 
-        nameField = new JTextField();
-        nameField.setBounds(320, 91, 200, 30);
-        getContentPane().add(nameField);
+        JLabel lblName =
+                new JLabel("Student Name:");
+        lblName.setBounds(80, 80, 120, 25);
+        add(lblName);
 
-        // Roll Number
-        rollLabel = new JLabel("Roll Number:");
-        rollLabel.setFont(new Font("Tahoma", Font.BOLD, 10));
-        rollLabel.setBounds(100, 130, 120, 30);
-        getContentPane().add(rollLabel);
+        txtName = new JTextField();
+        txtName.setBounds(280, 80, 220, 25);
+        add(txtName);
 
-        rollField = new JTextField();
-        rollField.setBounds(320, 131, 200, 30);
-        getContentPane().add(rollField);
+        JLabel lblRoll =
+                new JLabel("Roll Number:");
+        lblRoll.setBounds(80, 120, 120, 25);
+        add(lblRoll);
 
-        // Book Title
-        bookTitleLabel = new JLabel("Book Title:");
-        bookTitleLabel.setFont(new Font("Tahoma", Font.BOLD, 10));
-        bookTitleLabel.setBounds(100, 168, 120, 30);
-        getContentPane().add(bookTitleLabel);
+        txtRoll = new JTextField();
+        txtRoll.setBounds(280, 120, 220, 25);
 
-        bookTitleField = new JTextField();
-        bookTitleField.setBounds(320, 169, 200, 30);
-        getContentPane().add(bookTitleField);
+        txtRoll.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
 
-        // Book Category
-        categoryLabel = new JLabel("Book Category:");
-        categoryLabel.setFont(new Font("Tahoma", Font.BOLD, 10));
-        categoryLabel.setBounds(100, 216, 120, 30);
-        getContentPane().add(categoryLabel);
+                char c = e.getKeyChar();
 
-        String[] categories = {
-                "Programming",
-                "Artificial Intelligence",
-                "Databases",
-                "Networking"
+                if (!Character.isDigit(c)
+                        && c != KeyEvent.VK_BACK_SPACE
+                        && c != KeyEvent.VK_DELETE) {
+
+                    e.consume();
+                }
+            }
+        });
+
+        add(txtRoll);
+
+        JLabel lblSubject =
+                new JLabel("Subject Name:");
+        lblSubject.setBounds(80, 160, 120, 25);
+        add(lblSubject);
+
+        txtSubject = new JTextField();
+        txtSubject.setBounds(280, 160, 220, 25);
+        add(txtSubject);
+
+        JLabel lblDifficulty =
+                new JLabel("Difficulty:");
+        lblDifficulty.setBounds(80, 200, 120, 25);
+        add(lblDifficulty);
+
+        String difficulties[] = {
+                "Select Difficulty",
+                "Easy",
+                "Medium",
+                "Hard"
         };
 
-        categoryBox = new JComboBox<>(categories);
-        categoryBox.setFont(new Font("Tahoma", Font.BOLD, 10));
-        categoryBox.setBounds(320, 216, 200, 30);
-        getContentPane().add(categoryBox);
+        comboDifficulty =
+                new JComboBox<>(difficulties);
 
-        // Book Type
-        typeLabel = new JLabel("Book Type:");
-        typeLabel.setFont(new Font("Tahoma", Font.BOLD, 10));
-        typeLabel.setBounds(100, 267, 120, 30);
-        getContentPane().add(typeLabel);
+        comboDifficulty.setBounds(
+                280, 200, 220, 25);
 
-        newEdition = new JRadioButton("New Edition");
-        newEdition.setFont(new Font("Tahoma", Font.BOLD, 10));
-        newEdition.setBounds(320, 267, 120, 30);
-        getContentPane().add(newEdition);
+        add(comboDifficulty);
 
-        oldEdition = new JRadioButton("Old Edition");
-        oldEdition.setFont(new Font("Tahoma", Font.BOLD, 10));
-        oldEdition.setBounds(450, 267, 120, 30);
-        getContentPane().add(oldEdition);
+        JLabel lblPriority =
+                new JLabel("Priority:");
+        lblPriority.setBounds(80, 240, 120, 25);
+        add(lblPriority);
 
-        editionGroup = new ButtonGroup();
-        editionGroup.add(newEdition);
-        editionGroup.add(oldEdition);
+        rbHigh = new JRadioButton("High");
+        rbHigh.setBounds(280, 240, 80, 25);
+        add(rbHigh);
 
-        // Issue Date
-        issueDateLabel = new JLabel("Issue Date:");
-        issueDateLabel.setFont(new Font("Tahoma", Font.BOLD, 10));
-        issueDateLabel.setBounds(100, 317, 120, 30);
-        getContentPane().add(issueDateLabel);
+        rbMedium = new JRadioButton("Medium");
+        rbMedium.setBounds(380, 240, 100, 25);
+        add(rbMedium);
 
-        issueDateField = new JTextField();
-        issueDateField.setBounds(320, 318, 200, 30);
-        getContentPane().add(issueDateField);
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(rbHigh);
+        bg.add(rbMedium);
 
-        // Return Date
-        returnDateLabel = new JLabel("Return Date:");
-        returnDateLabel.setFont(new Font("Tahoma", Font.BOLD, 10));
-        returnDateLabel.setBounds(100, 354, 120, 30);
-        getContentPane().add(returnDateLabel);
+        JLabel lblExamDate =
+                new JLabel("Exam Date (DD/MM/YYYY):");
+        lblExamDate.setBounds(80, 280, 180, 25);
+        add(lblExamDate);
 
-        returnDateField = new JTextField();
-        returnDateField.setBounds(320, 355, 200, 30);
-        getContentPane().add(returnDateField);
+        txtExamDate = new JTextField();
+        txtExamDate.setBounds(280, 280, 220, 25);
+        add(txtExamDate);
 
-        // Remarks
-        remarksLabel = new JLabel("Remarks:");
-        remarksLabel.setFont(new Font("Tahoma", Font.BOLD, 10));
-        remarksLabel.setBounds(100, 400, 120, 30);
-        getContentPane().add(remarksLabel);
+        JLabel lblHours =
+                new JLabel("Study Hours:");
+        lblHours.setBounds(80, 320, 120, 25);
+        add(lblHours);
 
-        remarksArea = new JTextArea();
-        remarksArea.setBounds(320, 403, 200, 59);
-        getContentPane().add(remarksArea);
+        txtStudyHours = new JTextField();
+        txtStudyHours.setBounds(280, 320, 220, 25);
+        add(txtStudyHours);
 
-        // Buttons
-        issueButton = new JButton("Issue Book");
-        issueButton.setBounds(100, 503, 120, 35);
-        getContentPane().add(issueButton);
+        JLabel lblNotes =
+                new JLabel("Progress Notes:");
+        lblNotes.setBounds(80, 360, 120, 25);
+        add(lblNotes);
 
-        resetButton = new JButton("Reset");
-        resetButton.setFont(new Font("Tahoma", Font.BOLD, 10));
-        resetButton.setBounds(279, 503, 120, 35);
-        getContentPane().add(resetButton);
+        txtNotes = new JTextArea();
+        txtNotes.setBounds(280, 360, 220, 80);
+        add(txtNotes);
 
-        exitButton = new JButton("Exit");
-        exitButton.setFont(new Font("Tahoma", Font.BOLD, 10));
-        exitButton.setBounds(466, 503, 120, 35);
-        getContentPane().add(exitButton);
+        btnGenerate = new JButton("Generate Plan");
+        btnGenerate.setBounds(80, 520, 140, 35);
+        add(btnGenerate);
 
-        // Action Listener
-        issueButton.addActionListener(this);
-        resetButton.addActionListener(this);
-        exitButton.addActionListener(this);
+        btnReset = new JButton("Reset");
+        btnReset.setBounds(280, 520, 120, 35);
+        add(btnReset);
+
+        btnExit = new JButton("Exit");
+        btnExit.setBounds(480, 520, 120, 35);
+        add(btnExit);
+
+        btnGenerate.addActionListener(
+                new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                try {
+
+                    String name = txtName.getText().trim();
+
+                    String roll = txtRoll.getText().trim();
+
+                    String subject = txtSubject.getText().trim();
+
+                    String difficulty = comboDifficulty
+                            .getSelectedItem()
+                            .toString();
+
+                    String examDate = txtExamDate.getText().trim();
+
+                    String hours = txtStudyHours.getText().trim();
+
+                    String notes = txtNotes.getText().trim();
+
+
+                    if (name.isEmpty()) {
+                        throw new Exception(
+                                "Student Name cannot be empty!");
+                    }
+
+                    if (!name.matches("[a-zA-Z ]+")) {
+                        throw new Exception(
+                                "Name must contain only alphabets!");
+                    }
+
+                    if (!Classs.isRollValid(roll)) {
+                        throw new Exception(
+                                "Roll Number must contain numbers only!");
+                    }
+
+                    if (subject.isEmpty()) {
+                        throw new Exception(
+                                "Subject cannot be empty!");
+                    }
+
+                    if (comboDifficulty.getSelectedIndex() == 0) {
+                        throw new Exception(
+                                "Please select Difficulty!");
+                    }
+
+                    if (!rbHigh.isSelected()
+                            && !rbMedium.isSelected()) {
+
+                        throw new Exception(
+                                "Please select Priority!");
+                    }
+
+                    if (!examDate.matches(
+                            "\\d{2}/\\d{2}/\\d{4}")) {
+
+                        throw new Exception(
+                                "Date format must be DD/MM/YYYY");
+                    }
+
+                    if (!Classs.isStudyHoursValid(hours)) {
+
+                        throw new Exception(
+                                "Study Hours must be between 1 and 24!");
+                    }
+
+                    if (notes.isEmpty()) {
+
+                        throw new Exception(
+                                "Progress Notes cannot be empty!");
+                    }
+
+                    String priority;
+
+                    if (rbHigh.isSelected())
+                        priority = "High";
+                    else
+                        priority = "Medium";
+
+                    String recommendation =
+                            Classs.getRecommendation(
+                                    difficulty);
+
+                    JOptionPane.showMessageDialog(
+                            null,
+
+                            "AI STUDY PLAN GENERATED\n\n"
+
+                            + "Student Name: "
+                            + name
+
+                            + "\nRoll Number: "
+                            + roll
+
+                            + "\nSubject: "
+                            + subject
+
+                            + "\nDifficulty: "
+                            + difficulty
+
+                            + "\nPriority: "
+                            + priority
+
+                            + "\nExam Date: "
+                            + examDate
+
+                            + "\nStudy Hours: "
+                            + hours
+
+                            + "\nRecommendation: "
+                            + recommendation
+
+                            + "\nNotes: "
+                            + notes);
+
+                }
+
+                catch (NumberFormatException ex) {
+
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Only numeric values are allowed!",
+                            "Number Format Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+
+                catch (Exception ex) {
+
+                    JOptionPane.showMessageDialog(
+                            null,
+                            ex.getMessage(),
+                            "Validation Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        btnReset.addActionListener(
+                new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                txtName.setText("");
+                txtRoll.setText("");
+                txtSubject.setText("");
+                txtExamDate.setText("");
+                txtStudyHours.setText("");
+                txtNotes.setText("");
+
+                comboDifficulty.setSelectedIndex(0);
+
+                bg.clearSelection();
+            }
+        });
+
+        btnExit.addActionListener(
+                new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                System.exit(0);
+            }
+        });
 
         setVisible(true);
     }
 
-    // ActionListener Method
-    public void actionPerformed(ActionEvent e) {
-
-        // Issue Button
-        if (e.getSource() == issueButton) {
-
-            try {
-
-                String name = nameField.getText();
-                String roll = rollField.getText();
-                String bookTitle = bookTitleField.getText();
-                String category = (String) categoryBox.getSelectedItem();
-                String issueDate = issueDateField.getText();
-                String returnDate = returnDateField.getText();
-                String remarks = remarksArea.getText();
-
-                // Empty Field Validation
-                if (name.isEmpty() || roll.isEmpty() || bookTitle.isEmpty()
-                        || issueDate.isEmpty() || returnDate.isEmpty()) {
-
-                    throw new Exception("All fields are required!");
-                }
-
-                // Roll Number Validation
-                int rollNo = Integer.parseInt(roll);
-
-                // Book Type Validation
-                String bookType = "";
-
-                if (newEdition.isSelected()) {
-                    bookType = "New Edition";
-                }
-                else if (oldEdition.isSelected()) {
-                    bookType = "Old Edition";
-                }
-                else {
-                    throw new Exception("Please select Book Type!");
-                }
-
-                // Date Format Validation
-                if (!issueDate.matches("\\d{2}/\\d{2}/\\d{4}")
-                        || !returnDate.matches("\\d{2}/\\d{2}/\\d{4}")) {
-
-                    throw new Exception("Date format must be DD/MM/YYYY");
-                }
-
-                // Success Message
-                JOptionPane.showMessageDialog(this,
-                        "Book Issued Successfully!\n\n" +
-                        "Student Name: " + name +
-                        "\nRoll Number: " + rollNo +
-                        "\nBook Title: " + bookTitle +
-                        "\nCategory: " + category +
-                        "\nBook Type: " + bookType +
-                        "\nIssue Date: " + issueDate +
-                        "\nReturn Date: " + returnDate +
-                        "\nRemarks: " + remarks);
-
-            }
-
-            // Number Format Exception
-            catch (NumberFormatException ex) {
-
-                JOptionPane.showMessageDialog(this,
-                        "Roll Number must be numeric!",
-                        "Input Error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-
-            // General Exception
-            catch (Exception ex) {
-
-                JOptionPane.showMessageDialog(this,
-                        ex.getMessage(),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
-        // Reset Button
-        else if (e.getSource() == resetButton) {
-
-            nameField.setText("");
-            rollField.setText("");
-            bookTitleField.setText("");
-            issueDateField.setText("");
-            returnDateField.setText("");
-            remarksArea.setText("");
-            categoryBox.setSelectedIndex(0);
-            editionGroup.clearSelection();
-        }
-
-        // Exit Button
-        else if (e.getSource() == exitButton) {
-
-            System.exit(0);
-        }
-    }
-
-    // Main Method
     public static void main(String[] args) {
 
         new JFrame();
