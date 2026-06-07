@@ -180,6 +180,7 @@ public class JFrame extends javax.swing.JFrame {
 
                     String notes = txtNotes.getText().trim();
 
+                    // Exception Handling
 
                     if (name.isEmpty()) {
                         throw new Exception(
